@@ -50,12 +50,13 @@ class Printer implements Printable
 
 class PrinterProxy implements Printable
 {
-    private ?Printer $real;
+    private ?Printable $real;
 
-    public function __construct(private string $name)
+    public function __construct(private string $name, private string $className)
     {
         $this->name = $name;
         $this->real = null;
+        $this->className = $className;
     }
 
     public function setPrinterName(string $name): void
@@ -80,13 +81,13 @@ class PrinterProxy implements Printable
     private function realize()
     {
         if ($this->real === null) {
-            $this->real = new Printer($this->name);
+            $this->real = new $this->className($this->name);
         }
     }
 }
 
 
-$p = new PrinterProxy('Alice');
+$p = new PrinterProxy('Alice', 'Printer');
 
 print('This name is ' . $p->getPrinterName() . '.').PHP_EOL;
 $p->setPrinterName('Bob');
