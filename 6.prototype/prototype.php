@@ -200,7 +200,7 @@ class Marketing extends IAcmePRototype
 {
     const UNIT = "Marketing";
     private $sales = "sales";
-    private $romotion = "promotion";
+    private $promotion = "promotion";
     private $strategic = "strategic planning";
 
     public function setDept($orgCode)

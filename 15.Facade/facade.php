@@ -175,3 +175,6 @@ $order->addItem(new OrderItem($itemOrder->findById(2), 1));
 $order->addItem(new OrderItem($itemOrder->findById(3), 3));
 
 OrderManager::order($order);
+
+
+// https://shimooka.hateblo.jp/entry/20141215/1418620292
