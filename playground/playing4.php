@@ -5,11 +5,17 @@ declare(strict_types=1);
 
 final class ImmutablePrice
 {
-    public function __construct(private string $amount, private int $price)
+    /**
+     * readonlyプロパティをつける場合はconstructorの中での代入が要らなくらるらしい！便利！
+     */
+    public function __construct(
+        private readonly string $amount, 
+        private readonly int $price
+    )
     {
         if ($price < 0) throw new RangeException('is not minus');
-        $this->amount = $amount;
-        $this->price = $price;
+        // $this->amount = $amount;
+        // $this->price = $price;
     }
 
     public function getPrice() : int
@@ -19,6 +25,7 @@ final class ImmutablePrice
 
     public function getAmount() : string
     {
+        $this->amount = 'CHANGE';
         return $this->amount;
     }
 
@@ -35,8 +42,10 @@ final class ImmutablePrice
 $price = new ImmutablePrice('USD', 100);
 print($price->getPrice() . $price->getAmount()).PHP_EOL;
 
-$addedPrice = $price->addPrice(-500);
+$addedPrice = $price->addPrice(500);
 print($addedPrice->getPrice() . $addedPrice->getAmount()).PHP_EOL;
 
 
+// $addedPrice->amount = 'JP_YEN';
+// print($addedPrice->amount).PHP_EOL;
 
