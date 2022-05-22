@@ -2,15 +2,14 @@
 
 class Singleton
 {
-    private static $singleton;
-    private function __construct()
-    {
-        print('create instance!!');
-    }
+    private static ?Singleton $instance = null;
 
-    public static function getInstance()
+    public static function getInstance() : Singleton
     {
-        return self::$singleton;
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
+        }
+        return static::$instance;
     }
 }
 
