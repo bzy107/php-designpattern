@@ -51,7 +51,6 @@ class TakeBackState implements Status
 {
     private static ?TakeBackState $instance = null;
 
-
     public static function getInstance() : Status
     {
         if (is_null(static::$instance)) {
@@ -110,6 +109,11 @@ class StatusContext
         return $this->documentId;
     }
 
+    public function setDocumentId(int $documentId) : self
+    {
+        return new self(new ReserveStatus(), $documentId);
+    }
+
     public function update()
     {
         $this->currentStatus->updateState($this);
@@ -117,10 +121,29 @@ class StatusContext
 }
 
 
+print "実行開始[メモリ使用量]：". memory_get_usage() / (1024 * 1024) ."MB\n";
+print "実行開始[メモリ最大使用量]：". memory_get_peak_usage() / (1024 * 1024) ."MB\n";
+print "-----------------------------------------------\n";
+
 $books = new StatusContext(new ReserveStatus(), 123);
 $books->update();
 $books->update();
 $books->update();
+$books2 = $books->setDocumentId(456);
+print "処理1実行後[メモリ使用量]：". memory_get_usage() / (1024 * 1024) ."MB\n";
+print "処理1実行後[メモリ最大使用量]：". memory_get_peak_usage() / (1024 * 1024) ."MB\n";
+print "-----------------------------------------------\n";
+
 $books->update();
 $books->update();
 $books->update();
+
+$books2->update();
+$books2->update();
+$books2->update();
+$books2->update();
+
+print "処理2実行後[メモリ使用量]：". memory_get_usage() / (1024 * 1024) ."MB\n";
+print "処理2実行後[メモリ最大使用量]：". memory_get_peak_usage() / (1024 * 1024) ."MB\n";
+print "-----------------------------------------------\n";
+
