@@ -7,7 +7,7 @@ class Singleton
     public static function getInstance() : Singleton
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }

@@ -15,7 +15,7 @@ class ReserveStatus implements Status
     public static function getInstance() : Status
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }
@@ -34,7 +34,7 @@ class LendingState implements Status
     public static function getInstance() : Status
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }
@@ -54,7 +54,7 @@ class TakeBackState implements Status
     public static function getInstance() : Status
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }
@@ -73,7 +73,7 @@ class DoneState implements Status
     public static function getInstance() : Status
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }
