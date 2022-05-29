@@ -19,7 +19,7 @@ class Word implements Text
     }
 }
 
-class Character implements Text
+class Characters implements Text
 {
     public function __construct(private string $name)
     {
@@ -47,7 +47,7 @@ class TextFactory implements Countable
     private function create(string $name) : Text
     {
         if (strlen($name) === 1) {
-            return new Character($name);
+            return new Characters($name);
         } else {
             return new Word($name);
         }

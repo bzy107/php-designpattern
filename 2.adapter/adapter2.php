@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use PrintBanner as GlobalPrintBanner;
-
-abstract class Prints
+abstract class AbstructPrints
 {
     abstract protected function printWeak();
     abstract protected function printStrong();
@@ -29,8 +27,9 @@ class Banner
 }
 
 
-class PrintBanner extends Prints 
+class PrintBanner extends AbstructPrints 
 {
+    private Banner $banner;
     public function __construct(string $string)
     {
         $this->banner = new Banner($string);
@@ -47,6 +46,6 @@ class PrintBanner extends Prints
     }
 }
 
-$pr = new GlobalPrintBanner('bbbb');
+$pr = new PrintBanner('bbbb');
 $pr->printWeak();
 $pr->printStrong();

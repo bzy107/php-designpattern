@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class OrderContext
 {
-    private State $state;
+    private Statesss $state;
 
     public static function create() : OrderContext
     {
@@ -14,7 +14,7 @@ class OrderContext
         return $order;
     }
 
-    public function setState(State $state)
+    public function setState(Statesss $state)
     {
         $this->state = $state;
     }
@@ -30,14 +30,14 @@ class OrderContext
     }
 }
 
-interface State
+interface Statesss
 {
     public function proceedToNext(OrderContext $context);
 
     public function toString() : string;
 }
 
-class StateCreated implements State
+class StateCreated implements Statesss
 {
     public function proceedToNext(OrderContext $context)
     {
@@ -50,7 +50,7 @@ class StateCreated implements State
     }
 }
 
-class StateShipped implements State
+class StateShipped implements Statesss
 {
     public function proceedToNext(OrderContext $context)
     {
@@ -63,7 +63,7 @@ class StateShipped implements State
     }
 }
 
-class StateDone implements State
+class StateDone implements Statesss
 {
     public function proceedToNext(OrderContext $context)
     {

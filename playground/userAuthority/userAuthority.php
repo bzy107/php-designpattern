@@ -34,7 +34,7 @@ enum Department : int
     case Strategy = 3;
 }
 
-class Users
+class Userses
 {
     /**
      * 社長     => roleId: 0
@@ -50,14 +50,14 @@ class Users
         public readonly ?Department $departmentId = null,
         public readonly ?EmployeeRole $roleId = null
     ) {
-        if (is_null($name) || ! $name) throw new Exception('name Error');
-        if (! is_null($employeeId) && $employeeId < 0) throw new Exception('employeeId Error');
+        if (is_null($this->name) || ! $this->name) throw new Exception('name Error');
+        if (! is_null($this->employeeId) && $this->employeeId < 0) throw new Exception('employeeId Error');
     }
 }
 
 interface UserAuth
 {
-    public function isSatisfiedBy(Users $user) : bool;
+    public function isSatisfiedBy(Userses $user) : bool;
 }
 
 /**
@@ -67,7 +67,7 @@ class EmployeeCheck implements UserAuth
 {
     public function __construct(private readonly EmployeeRole $checkRoleId) {}
 
-    public function isSatisfiedBy(Users $user): bool
+    public function isSatisfiedBy(Userses $user): bool
     {
         if (is_null($user->roleId)) return false;
         if ($user->roleId->value !== $this->checkRoleId->value) return true;
@@ -82,7 +82,7 @@ class DepertmentCheck implements UserAuth
 {
     public function __construct(private readonly Department $targetDepartmeneId) {}
 
-    public function isSatisfiedBy(Users $user): bool
+    public function isSatisfiedBy(Userses $user): bool
     {
         if (is_null($user->departmentId)) return false;
         if ($user->departmentId->value === $this->targetDepartmeneId->value) return true;
@@ -97,7 +97,7 @@ class RankCheck implements UserAuth
 {
     public function __construct(private readonly EmployeeRole $targetRoleId) {}
 
-    public function isSatisfiedBy(Users $user): bool
+    public function isSatisfiedBy(Userses $user): bool
     {
         if (is_null($user->roleId)) return false;
         if ($user->roleId->value <= $this->targetRoleId->value) return true;
@@ -115,7 +115,7 @@ class SalesDepertmentAndDirectorCheck implements UserAuth
         private readonly Department $targetDepartmeneId
     ) {}
 
-    public function isSatisfiedBy(Users $user): bool
+    public function isSatisfiedBy(Userses $user): bool
     {
         if (is_null($user->roleId) || is_null($user->departmentId)) return false;
         if ($user->roleId->value <= $this->targetRoleId->value
@@ -130,7 +130,7 @@ class SalesDepertmentAndDirectorCheck implements UserAuth
 
 class Main
 {
-    public function checkPermission(Users $user, array $userPermissionAray)
+    public function checkPermission(Userses $user, array $userPermissionAray)
     {
         foreach ($userPermissionAray as $p) {
             if ($p->isSatisfiedBy($user)) return 'allow!!!!';
@@ -140,9 +140,9 @@ class Main
 }
 
 
-$employee1 = new Users('Guest Jon');
-$employee2 = new Users('employee Mick', 100, Department::IT, EmployeeRole::Employee);
-$employee3 = new Users('VicePresident zerensky', 100, Department::Strategy, EmployeeRole::Manager);
+$employee1 = new Userses('Guest Jon');
+$employee2 = new Userses('employee Mick', 100, Department::IT, EmployeeRole::Employee);
+$employee3 = new Userses('VicePresident zerensky', 100, Department::Strategy, EmployeeRole::Manager);
 
 $array = [];
 // $array[]= new EmployeeCheck(EmployeeRole::Guest);
