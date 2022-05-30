@@ -48,9 +48,8 @@ abstract class Support
             $this->done($trouble);
         } elseif ($this->next !== null) {
             $this->next->support($trouble);
-        } else {
-            $this->fail($trouble);
-        }
+        } 
+        $this->fail($trouble);
     }
 
     public function __toString()
@@ -98,9 +97,8 @@ class LimitSupport extends Support
     {
         if ($trouble->getNumber() < $this->limit) {
             return true;
-        } else {
-            return false;
-        }
+        } 
+        return false;
     }
 }
 
@@ -115,9 +113,8 @@ class OddSupport extends Support
     {
         if ($trouble->getNumber() % 2 === 1) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
 
@@ -136,9 +133,8 @@ class SpecialSupport extends Support
     {
         if ($trouble->getNumber() === $this->number) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
 
