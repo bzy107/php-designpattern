@@ -100,9 +100,8 @@ class FullBorder extends Border
             return "+" . $this->makeLine('-', $this->display->getColumns()) . "+";
         } elseif ($row === $this->display->getRows() + 1) {
             return "+" . $this->makeLine('-', $this->display->getColumns()) . "+";
-        } else {
-            return "|" . $this->display->getRowText($row - 1) . "|";
-        }
+        } 
+        return "|" . $this->display->getRowText($row - 1) . "|";
     }
 
     private function makeLine(string $ch, int $count)
