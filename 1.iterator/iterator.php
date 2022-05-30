@@ -94,6 +94,7 @@ class BookListIterator implements BookIterator
 
     public function next() : array
     {
+        $book = [];
         $bk = $this->books[$this->index++];
         $book['books'] = $bk['id'];
         $book['last'] = $bk['family-name'];
@@ -123,6 +124,7 @@ class BookListIterator2 implements BookIterator
 
     public function next() : array
     {
+        $book = [];
         $bk = $this->books[$this->index++];
         $book['books'] = $bk['family-name'];
         $book['last'] = $bk['id'];
