@@ -60,7 +60,7 @@ class Receiver
 
     public function getOutput() : string
     {
-        return join('\n', $this->output);
+        return join(PHP_EOL, $this->output);
     }
 
     public function enableDate()
@@ -98,7 +98,7 @@ $invoker->run();
 print($receiver->getOutput()).PHP_EOL;
 
 
-
+print('---').PHP_EOL;
 
 
 $invoker2 = new Invoker();
@@ -106,8 +106,9 @@ $receiver2 = new Receiver();
 
 $invoker2->setCommand(new HelloCommand($receiver2));
 $invoker2->run();
-print($receiver2->getOutput());
+print($receiver2->getOutput()).PHP_EOL;
 
+print('---').PHP_EOL;
 
 
 
@@ -118,7 +119,13 @@ $messageDateCommand->execute();
 $invoker2->run();
 print($receiver2->getOutput()).PHP_EOL;
 
+print('---').PHP_EOL;
+
 $messageDateCommand->undo();
 $invoker2->run();
 
+print('---').PHP_EOL;
+
+
 print($receiver2->getOutput()).PHP_EOL;
+print('---').PHP_EOL;
