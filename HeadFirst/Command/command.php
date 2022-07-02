@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 interface Command
 {
     public function execute() : void;
@@ -274,8 +273,52 @@ class StereoOffWithCDCommand implements Command
     }
 }
 
+class MacroCommand implements Command
+{
+    public function __construct(private array $command) {}
+
+    public function execute() : void
+    {
+        for ((int)$i=0; $i<count($this->command); $i++) {
+            $this->command[$i]->execute();
+        }
+    }
+
+    public function undo(): void
+    {
+        for ((int)$j=0; $j<count($this->command); $j++) {
+            $this->command[$j]->undo();
+        }
+    }
+}
 
 $remoteControl = new RemoteControlWithUndo();
+
+$light = new Light('リビングルーム');
+$stereo = new Stereo('リビングルーム');
+
+$lightOn = new LightOnCommand($light);
+$lightOff = new LightOffCommand($light);
+$stereoOn = new StereoOnWithCDCommand($stereo);
+$stereoOff = new StereoOffWithCDCommand($stereo);
+
+$partyOn = [$lightOn, $stereoOn];
+$partyOff = [$lightOff, $stereoOff];
+
+$partyOnMacro = new MacroCommand($partyOn);
+$partyOffMacro = new MacroCommand($partyOff);
+
+$remoteControl->setCommand(0, $partyOnMacro, $partyOffMacro);
+
+$remoteControl->toString();
+print('--マクロのOnを押す--').PHP_EOL;
+$remoteControl->onButtonWasPushed(0);
+print('--マクロのOffを押す--').PHP_EOL;
+$remoteControl->offButtonWasPushed(0);
+
+print('--マクロのリドゥを押す--').PHP_EOL;
+$remoteControl->undoButtonWasPushed();
+
 
 
 // $livingRoomLight =  new Light('リビングルーム');
@@ -320,24 +363,24 @@ $remoteControl = new RemoteControlWithUndo();
 // $remoteControl->undoButtonWasPushed();
 
 // シーリングファンクラスの確認
-$ceilingFan = new CeilingFan('リビングルーム');
+// $ceilingFan = new CeilingFan('リビングルーム');
 
-$ceilingFanMedium = new CeilingFanMediumCommand($ceilingFan);
-$ceilingFanHigh = new CeilingFanHighCommand($ceilingFan);
-$ceilingFanOff = new CeilingFanOffCommand($ceilingFan);
+// $ceilingFanMedium = new CeilingFanMediumCommand($ceilingFan);
+// $ceilingFanHigh = new CeilingFanHighCommand($ceilingFan);
+// $ceilingFanOff = new CeilingFanOffCommand($ceilingFan);
 
-$remoteControl->setCommand(0, $ceilingFanMedium, $ceilingFanOff);
-$remoteControl->setCommand(1, $ceilingFanHigh, $ceilingFanOff);
+// $remoteControl->setCommand(0, $ceilingFanMedium, $ceilingFanOff);
+// $remoteControl->setCommand(1, $ceilingFanHigh, $ceilingFanOff);
 
-$remoteControl->onButtonWasPushed(0);
-$remoteControl->offButtonWasPushed(0);
-$remoteControl->toString();
+// $remoteControl->onButtonWasPushed(0);
+// $remoteControl->offButtonWasPushed(0);
+// $remoteControl->toString();
 
-$remoteControl->undoButtonWasPushed();
+// $remoteControl->undoButtonWasPushed();
 
-$remoteControl->onButtonWasPushed(1);
-$remoteControl->toString();
-$remoteControl->undoButtonWasPushed();
+// $remoteControl->onButtonWasPushed(1);
+// $remoteControl->toString();
+// $remoteControl->undoButtonWasPushed();
 
 
 
