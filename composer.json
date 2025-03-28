@@ -3,5 +3,13 @@
         "psr-4": {
             "Iterator\\" : "1.iterator/src/"
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.7"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
