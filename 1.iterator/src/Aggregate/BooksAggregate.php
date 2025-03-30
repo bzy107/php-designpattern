@@ -6,14 +6,16 @@ use Iterator\Iterator\BooksIterator;
 
 class BooksAggregate implements Aggregate
 {
-    public function __construct(private array $books)
+    public function __construct(private array $books = [])
     {
         //
     }
 
-    public function addBookList(array $book): void
+    public function addBookList(array ...$books): void
     {
-        $this->books[] = $book;
+        foreach ($books as $book) {
+            $this->books[] = $book;
+        }
     }
 
     public function getBookList(): array

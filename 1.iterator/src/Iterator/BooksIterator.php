@@ -18,11 +18,18 @@ class BooksIterator implements Iterator
 
     public function next(): array
     {
-        $book = [];
         $bookData = $this->books[$this->index++];
-        $book['books_id'] = $bookData['id'];
-        $book['page_count'] = $bookData['pages'];
-        $book['author'] = $bookData['author_name'];
+
+        return $this->getFormattedData($bookData);
+    }
+
+    public function getFormattedData(array $data): array
+    {
+        $book = [];
+
+        $book['books_id'] = $data['id'];
+        $book['page_count'] = $data['pages'];
+        $book['author'] = $data['author_name'];
 
         return $book;
     }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Iterator;
+
 require './vendor/autoload.php';
 
 use Iterator\Aggregate\BooksAggregate;
@@ -9,9 +11,7 @@ class DisplayClient
 {
     private Iterator $bookIterator;
 
-    public function __construct(
-        BooksAggregate $books
-    ) {
+    public function __construct(BooksAggregate $books) {
         $this->bookIterator = $books->iterator();
     }
 
