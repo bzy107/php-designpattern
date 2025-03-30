@@ -5,6 +5,7 @@ declare(strict_types=1);
 class User implements SplSubject
 {
     private SplObjectStorage $observers;
+
     private $email;
 
     public function __construct()
@@ -12,23 +13,23 @@ class User implements SplSubject
         $this->observers = new SplObjectStorage();
     }
 
-    public function attach(SplObserver $observer) : void
+    public function attach(SplObserver $observer): void
     {
         $this->observers->attach($observer);
     }
 
-    public function detach(SplObserver $observer) : void
+    public function detach(SplObserver $observer): void
     {
         $this->observers->detach($observer);
     }
 
-    public function changeEmail(string $email) : void
+    public function changeEmail(string $email): void
     {
         $this->email = $email;
         $this->notify();
     }
 
-    public function notify() : void
+    public function notify(): void
     {
         foreach ($this->observers as $observer) {
             $observer->update($this);
@@ -40,12 +41,12 @@ class UserObserver implements SplObserver
 {
     private array $changeUsers = [];
 
-    public function update(SplSubject $subject) : void
+    public function update(SplSubject $subject): void
     {
         $this->changeUsers[] = clone $subject;
     }
 
-    public function getChangeUsers() : array
+    public function getChangeUsers(): array
     {
         return $this->changeUsers;
     }
@@ -56,9 +57,6 @@ $user = new User();
 $user->attach($observer);
 $user->changeEmail('test@test.com');
 var_dump($observer->getChangeUsers());
-
-
-
 
 // interface SubjectInterface
 // {
@@ -122,7 +120,6 @@ var_dump($observer->getChangeUsers());
 //         }
 //     }
 // }
-
 
 // class LoggingListner implements ObserverInterface
 // {

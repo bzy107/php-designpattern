@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 interface Command
 {
-    public function execute() : void;
-    public function undo() : void;
-}
+    public function execute(): void;
 
+    public function undo(): void;
+}
 
 class NoCommand implements Command
 {
-    public function execute() : void {}
-    public function undo() : void {}
+    public function execute(): void
+    {
+    }
+
+    public function undo(): void
+    {
+    }
 }
 
 class RemoteControlWithUndo
@@ -21,10 +26,9 @@ class RemoteControlWithUndo
         private array $onCommands = [],
         private array $offCommands = [],
         private $undoCommand = null
-    )
-    {
+    ) {
         $noCommand = new NoCommand();
-        for ($i=0; $i<7; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $this->onCommands[$i] = $noCommand;
             $this->offCommands[$i] = $noCommand;
         }
@@ -35,52 +39,53 @@ class RemoteControlWithUndo
         int $slot,
         Command $onCommand,
         Command $offCommand
-    )
-    {
+    ) {
         $this->onCommands[$slot] = $onCommand;
         $this->offCommands[$slot] = $offCommand;
     }
 
-    public function onButtonWasPushed(int $slot) : void
+    public function onButtonWasPushed(int $slot): void
     {
         $this->onCommands[$slot]->execute();
         $this->undoCommand = $this->onCommands[$slot];
     }
 
-    public function offButtonWasPushed(int $slot) : void
+    public function offButtonWasPushed(int $slot): void
     {
         $this->offCommands[$slot]->execute();
         $this->undoCommand = $this->offCommands[$slot];
     }
 
-    public function undoButtonWasPushed() : void
+    public function undoButtonWasPushed(): void
     {
         $this->undoCommand->undo();
     }
 
-    public function toString() : void
+    public function toString(): void
     {
-        print(PHP_EOL . "---------------リモコン-----------\n");
-        for ($j=0; $j<count($this->onCommands); $j++) {
-            print('スロット[' . $j . '] : ' . get_class($this->onCommands[$j]) 
-                . '  ' . get_class($this->offCommands[$j]) . PHP_EOL);
+        echo PHP_EOL . "---------------リモコン-----------\n";
+        for ($j = 0; $j < count($this->onCommands); $j++) {
+            echo 'スロット[' . $j . '] : ' . get_class($this->onCommands[$j])
+                . '  ' . get_class($this->offCommands[$j]) . PHP_EOL;
         }
         if ($this->undoCommand) {
-            Print('Undo: ' . get_class($this->undoCommand)).PHP_EOL;
+            echo ('Undo: ' . get_class($this->undoCommand)) . PHP_EOL;
         }
     }
 }
 
 class LightOnCommand implements Command
 {
-    public function __construct(private Light $light) {}
+    public function __construct(private Light $light)
+    {
+    }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->light->on();
     }
 
-    public function undo() : void
+    public function undo(): void
     {
         $this->light->off();
     }
@@ -88,93 +93,98 @@ class LightOnCommand implements Command
 
 class LightOffCommand implements Command
 {
-    public function __construct(private Light $light) {}
+    public function __construct(private Light $light)
+    {
+    }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->light->off();
     }
 
-    public function undo() : void
+    public function undo(): void
     {
         $this->light->on();
     }
 }
 
-
 class Light
 {
-    public function on() : void
+    public function on(): void
     {
-        print('Light On').PHP_EOL;
+        echo 'Light On' . PHP_EOL;
     }
 
-    public function off() : void
+    public function off(): void
     {
-        print('Light Off').PHP_EOL;
+        echo 'Light Off' . PHP_EOL;
     }
 }
 
 class Stereo
 {
-    public function on() : void
+    public function on(): void
     {
-        print('Stereo On').PHP_EOL;
+        echo 'Stereo On' . PHP_EOL;
     }
 
-    public function setCD() : void
+    public function setCD(): void
     {
-        print('Stereo Set CD').PHP_EOL;
+        echo 'Stereo Set CD' . PHP_EOL;
     }
 
-    public function setVolume(int $volume) : void
+    public function setVolume(int $volume): void
     {
-        print('Stereo Set Volume ' . $volume).PHP_EOL;
+        echo ('Stereo Set Volume ' . $volume) . PHP_EOL;
     }
 
-    public function off() : void
+    public function off(): void
     {
-        print('Stereo Off').PHP_EOL;
+        echo 'Stereo Off' . PHP_EOL;
     }
 }
 
 class CeilingFan
 {
-    const HIGH = 3;
-    const MEDIUM = 2;
-    const LOW = 1;
-    const OFF = 0;
+    public const HIGH = 3;
+
+    public const MEDIUM = 2;
+
+    public const LOW = 1;
+
+    public const OFF = 0;
 
     public function __construct(
         private string $location,
         private int $speed = self::HIGH
-    ) {}
+    ) {
+    }
 
-    public function high() : void
+    public function high(): void
     {
-        print('CeilingFan High').PHP_EOL;
+        echo 'CeilingFan High' . PHP_EOL;
         $this->speed = self::HIGH;
     }
 
-    public function medium() : void
+    public function medium(): void
     {
-        print('CeilingFan Medium').PHP_EOL;
+        echo 'CeilingFan Medium' . PHP_EOL;
         $this->speed = self::MEDIUM;
     }
 
-    public function low() : void
+    public function low(): void
     {
-        print('CeilingFan Low').PHP_EOL;
+        echo 'CeilingFan Low' . PHP_EOL;
         $this->speed = self::LOW;
     }
 
-    public function off() : void
+    public function off(): void
     {
-        print('CeilingFan Off').PHP_EOL;
+        echo 'CeilingFan Off' . PHP_EOL;
         $this->speed = self::OFF;
     }
 
-    public function getSpeed() : int
+    public function getSpeed(): int
     {
         return $this->speed;
     }
@@ -183,9 +193,12 @@ class CeilingFan
 class CeilingFanHighCommand implements Command
 {
     private int $prevSpeed;
-    public function __construct(private CeilingFan $ceilingFan) {}
 
-    public function execute() : void
+    public function __construct(private CeilingFan $ceilingFan)
+    {
+    }
+
+    public function execute(): void
     {
         $this->prevSpeed = $this->ceilingFan->getSpeed();
         $this->ceilingFan->high();
@@ -193,19 +206,30 @@ class CeilingFanHighCommand implements Command
 
     public function undo(): void
     {
-        if ($this->prevSpeed === CeilingFan::HIGH) $this->ceilingFan->high();
-        if ($this->prevSpeed === CeilingFan::MEDIUM) $this->ceilingFan->medium();
-        if ($this->prevSpeed === CeilingFan::LOW) $this->ceilingFan->low();
-        if ($this->prevSpeed === CeilingFan::OFF) $this->ceilingFan->off();
+        if ($this->prevSpeed === CeilingFan::HIGH) {
+            $this->ceilingFan->high();
+        }
+        if ($this->prevSpeed === CeilingFan::MEDIUM) {
+            $this->ceilingFan->medium();
+        }
+        if ($this->prevSpeed === CeilingFan::LOW) {
+            $this->ceilingFan->low();
+        }
+        if ($this->prevSpeed === CeilingFan::OFF) {
+            $this->ceilingFan->off();
+        }
     }
 }
 
 class CeilingFanMediumCommand implements Command
 {
     private int $prevSpeed;
-    public function __construct(private CeilingFan $ceilingFan) {}
 
-    public function execute() : void
+    public function __construct(private CeilingFan $ceilingFan)
+    {
+    }
+
+    public function execute(): void
     {
         $this->prevSpeed = $this->ceilingFan->getSpeed();
         $this->ceilingFan->medium();
@@ -213,19 +237,30 @@ class CeilingFanMediumCommand implements Command
 
     public function undo(): void
     {
-        if ($this->prevSpeed === CeilingFan::HIGH) $this->ceilingFan->high();
-        if ($this->prevSpeed === CeilingFan::MEDIUM) $this->ceilingFan->medium();
-        if ($this->prevSpeed === CeilingFan::LOW) $this->ceilingFan->low();
-        if ($this->prevSpeed === CeilingFan::OFF) $this->ceilingFan->off();
+        if ($this->prevSpeed === CeilingFan::HIGH) {
+            $this->ceilingFan->high();
+        }
+        if ($this->prevSpeed === CeilingFan::MEDIUM) {
+            $this->ceilingFan->medium();
+        }
+        if ($this->prevSpeed === CeilingFan::LOW) {
+            $this->ceilingFan->low();
+        }
+        if ($this->prevSpeed === CeilingFan::OFF) {
+            $this->ceilingFan->off();
+        }
     }
 }
 
 class CeilingFanOffCommand implements Command
 {
     private int $prevSpeed;
-    public function __construct(private CeilingFan $ceilingFan) {}
 
-    public function execute() : void
+    public function __construct(private CeilingFan $ceilingFan)
+    {
+    }
+
+    public function execute(): void
     {
         $this->prevSpeed = $this->ceilingFan->getSpeed();
         $this->ceilingFan->off();
@@ -233,24 +268,34 @@ class CeilingFanOffCommand implements Command
 
     public function undo(): void
     {
-        if ($this->prevSpeed === CeilingFan::HIGH) $this->ceilingFan->high();
-        if ($this->prevSpeed === CeilingFan::MEDIUM) $this->ceilingFan->medium();
-        if ($this->prevSpeed === CeilingFan::LOW) $this->ceilingFan->low();
-        if ($this->prevSpeed === CeilingFan::OFF) $this->ceilingFan->off();
+        if ($this->prevSpeed === CeilingFan::HIGH) {
+            $this->ceilingFan->high();
+        }
+        if ($this->prevSpeed === CeilingFan::MEDIUM) {
+            $this->ceilingFan->medium();
+        }
+        if ($this->prevSpeed === CeilingFan::LOW) {
+            $this->ceilingFan->low();
+        }
+        if ($this->prevSpeed === CeilingFan::OFF) {
+            $this->ceilingFan->off();
+        }
     }
 }
 class StereoOnWithCDCommand implements Command
 {
-    public function __construct(private Stereo $stereo) {}
+    public function __construct(private Stereo $stereo)
+    {
+    }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->stereo->on();
         $this->stereo->setCD();
         $this->stereo->setVolume(11);
     }
 
-    public function undo() : void
+    public function undo(): void
     {
         $this->stereo->off();
     }
@@ -258,14 +303,16 @@ class StereoOnWithCDCommand implements Command
 
 class StereoOffWithCDCommand implements Command
 {
-    public function __construct(private Stereo $stereo) {}
+    public function __construct(private Stereo $stereo)
+    {
+    }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->stereo->off();
     }
 
-    public function undo() : void
+    public function undo(): void
     {
         $this->stereo->on();
         $this->stereo->setCD();
@@ -275,18 +322,20 @@ class StereoOffWithCDCommand implements Command
 
 class MacroCommand implements Command
 {
-    public function __construct(private array $command) {}
-
-    public function execute() : void
+    public function __construct(private array $command)
     {
-        for ((int)$i=0; $i<count($this->command); $i++) {
+    }
+
+    public function execute(): void
+    {
+        for ((int) $i = 0; $i < count($this->command); $i++) {
             $this->command[$i]->execute();
         }
     }
 
     public function undo(): void
     {
-        for ((int)$j=0; $j<count($this->command); $j++) {
+        for ((int) $j = 0; $j < count($this->command); $j++) {
             $this->command[$j]->undo();
         }
     }
@@ -311,15 +360,13 @@ $partyOffMacro = new MacroCommand($partyOff);
 $remoteControl->setCommand(0, $partyOnMacro, $partyOffMacro);
 
 $remoteControl->toString();
-print('--マクロのOnを押す--').PHP_EOL;
+echo '--マクロのOnを押す--' . PHP_EOL;
 $remoteControl->onButtonWasPushed(0);
-print('--マクロのOffを押す--').PHP_EOL;
+echo '--マクロのOffを押す--' . PHP_EOL;
 $remoteControl->offButtonWasPushed(0);
 
-print('--マクロのリドゥを押す--').PHP_EOL;
+echo '--マクロのリドゥを押す--' . PHP_EOL;
 $remoteControl->undoButtonWasPushed();
-
-
 
 // $livingRoomLight =  new Light('リビングルーム');
 // $kitchenLight =  new Light('キッチン');
@@ -334,8 +381,6 @@ $remoteControl->undoButtonWasPushed();
 // $stereoOnWithCD = new StereoOnWithCDCommand($stereo);
 // $stereoOffWithCD = new StereoOffWithCDCommand($stereo);
 
-
-
 // ライトとステレオの実装
 // $remoteControl->setCommand(0, $livingRoomLightOn, $livingRoomLightOff);
 // $remoteControl->setCommand(1, $kitchenLightOn, $kitchenLightOff);
@@ -349,7 +394,6 @@ $remoteControl->undoButtonWasPushed();
 // $remoteControl->offButtonWasPushed(1);
 // $remoteControl->onButtonWasPushed(2);
 // $remoteControl->offButtonWasPushed(2);
-
 
 // アンドゥの実装確認
 // $remoteControl->setCommand(0, $livingRoomLightOn, $livingRoomLightOff);
@@ -381,18 +425,6 @@ $remoteControl->undoButtonWasPushed();
 // $remoteControl->onButtonWasPushed(1);
 // $remoteControl->toString();
 // $remoteControl->undoButtonWasPushed();
-
-
-
-
-
-
-
-
-
-
-
-
 
 // class Light
 // {
@@ -427,10 +459,9 @@ $remoteControl->undoButtonWasPushed();
 // //         private $offCommands = new Command()
 // //     )
 // //     {
-        
+
 // //     }
 // // }
-
 
 // $remote = new SimpleRemoteControl();
 // $light = new Light();

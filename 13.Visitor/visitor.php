@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
-
-
 
 interface RoleVisitor
 {
     public function visitUser(User $role);
+
     public function visitGroup(Group $role);
 }
 
@@ -23,7 +23,7 @@ class RecordingVisitor implements RoleVisitor
         $this->visited[] = $role;
     }
 
-    public function getVisited() : array
+    public function getVisited(): array
     {
         return $this->visited;
     }
@@ -40,7 +40,7 @@ class User implements Role
     {
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return sprintf('User %s', $this->name);
     }
@@ -57,11 +57,10 @@ class Group implements Role
     {
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return sprintf('Group %s', $this->name);
     }
-
 
     public function accept(RoleVisitor $visitor)
     {
@@ -71,11 +70,8 @@ class Group implements Role
 
 $visitor = new RecordingVisitor();
 
-
-
 $user = new User('Dominik');
 $user->accept($visitor);
 var_dump($visitor->getVisited());
 
-
-print($user->getName()).PHP_EOL;
+echo $user->getName() . PHP_EOL;

@@ -16,7 +16,7 @@ declare(strict_types=1);
 // TODO: TDDで再実装してみる
 // TODO: 名前が適切ではない
 
-enum EmployeeRole : int
+enum EmployeeRole: int
 {
     case President = 0;
     case VicePresident = 1;
@@ -26,7 +26,7 @@ enum EmployeeRole : int
     case Guest = 99;
 }
 
-enum Department : int
+enum Department: int
 {
     case Representative = 0;
     case Sales = 1;
@@ -50,14 +50,18 @@ class Userses
         public readonly ?Department $departmentId = null,
         public readonly ?EmployeeRole $roleId = null
     ) {
-        if (is_null($this->name) || ! $this->name) throw new Exception('name Error');
-        if (! is_null($this->employeeId) && $this->employeeId < 0) throw new Exception('employeeId Error');
+        if (is_null($this->name) || ! $this->name) {
+            throw new Exception('name Error');
+        }
+        if (! is_null($this->employeeId) && $this->employeeId < 0) {
+            throw new Exception('employeeId Error');
+        }
     }
 }
 
 interface UserAuth
 {
-    public function isSatisfiedBy(Userses $user) : bool;
+    public function isSatisfiedBy(Userses $user): bool;
 }
 
 /**
@@ -65,12 +69,19 @@ interface UserAuth
  */
 class EmployeeCheck implements UserAuth
 {
-    public function __construct(private readonly EmployeeRole $checkRoleId) {}
+    public function __construct(private readonly EmployeeRole $checkRoleId)
+    {
+    }
 
     public function isSatisfiedBy(Userses $user): bool
     {
-        if (is_null($user->roleId)) return false;
-        if ($user->roleId->value !== $this->checkRoleId->value) return true;
+        if (is_null($user->roleId)) {
+            return false;
+        }
+        if ($user->roleId->value !== $this->checkRoleId->value) {
+            return true;
+        }
+
         return false;
     }
 }
@@ -80,12 +91,19 @@ class EmployeeCheck implements UserAuth
  */
 class DepertmentCheck implements UserAuth
 {
-    public function __construct(private readonly Department $targetDepartmeneId) {}
+    public function __construct(private readonly Department $targetDepartmeneId)
+    {
+    }
 
     public function isSatisfiedBy(Userses $user): bool
     {
-        if (is_null($user->departmentId)) return false;
-        if ($user->departmentId->value === $this->targetDepartmeneId->value) return true;
+        if (is_null($user->departmentId)) {
+            return false;
+        }
+        if ($user->departmentId->value === $this->targetDepartmeneId->value) {
+            return true;
+        }
+
         return false;
     }
 }
@@ -95,12 +113,19 @@ class DepertmentCheck implements UserAuth
  */
 class RankCheck implements UserAuth
 {
-    public function __construct(private readonly EmployeeRole $targetRoleId) {}
+    public function __construct(private readonly EmployeeRole $targetRoleId)
+    {
+    }
 
     public function isSatisfiedBy(Userses $user): bool
     {
-        if (is_null($user->roleId)) return false;
-        if ($user->roleId->value <= $this->targetRoleId->value) return true;
+        if (is_null($user->roleId)) {
+            return false;
+        }
+        if ($user->roleId->value <= $this->targetRoleId->value) {
+            return true;
+        }
+
         return false;
     }
 }
@@ -113,11 +138,14 @@ class SalesDepertmentAndDirectorCheck implements UserAuth
     public function __construct(
         private readonly EmployeeRole $targetRoleId,
         private readonly Department $targetDepartmeneId
-    ) {}
+    ) {
+    }
 
     public function isSatisfiedBy(Userses $user): bool
     {
-        if (is_null($user->roleId) || is_null($user->departmentId)) return false;
+        if (is_null($user->roleId) || is_null($user->departmentId)) {
+            return false;
+        }
         if ($user->roleId->value <= $this->targetRoleId->value
             && $user->departmentId->value === $this->targetDepartmeneId->value
         ) {
@@ -133,12 +161,14 @@ class Main
     public function checkPermission(Userses $user, array $userPermissionAray)
     {
         foreach ($userPermissionAray as $p) {
-            if ($p->isSatisfiedBy($user)) return 'allow!!!!';
+            if ($p->isSatisfiedBy($user)) {
+                return 'allow!!!!';
+            }
         }
+
         return 'not allow.....';
     }
 }
-
 
 $employee1 = new Userses('Guest Jon');
 $employee2 = new Userses('employee Mick', 100, Department::IT, EmployeeRole::Employee);
@@ -148,13 +178,10 @@ $array = [];
 // $array[]= new EmployeeCheck(EmployeeRole::Guest);
 // $array[]= new DepertmentCheck(Department::Sales);
 // $array[]= new DepertmentCheck(Department::Representative);
-$array[]= new RankCheck(EmployeeRole::Manager);
-$array[]= new SalesDepertmentAndDirectorCheck(EmployeeRole::President, Department::Strategy);
+$array[] = new RankCheck(EmployeeRole::Manager);
+$array[] = new SalesDepertmentAndDirectorCheck(EmployeeRole::President, Department::Strategy);
 
 $main = new Main();
-print($main->checkPermission($employee1, $array)).PHP_EOL;
-print($main->checkPermission($employee2, $array)).PHP_EOL;
-print($main->checkPermission($employee3, $array)).PHP_EOL;
-
-
-
+echo $main->checkPermission($employee1, $array) . PHP_EOL;
+echo $main->checkPermission($employee2, $array) . PHP_EOL;
+echo $main->checkPermission($employee3, $array) . PHP_EOL;

@@ -1,14 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
-interface hfSubject 
+interface hfSubject
 {
     public function registerObserver(hfObserver $observer): void;
+
     public function removeObserver(hfObserver $observer): void;
+
     public function notifyObservers();
 }
 
-interface hfObserver 
+interface hfObserver
 {
     public function update();
 }
@@ -18,12 +21,14 @@ interface DisplayElement
     public function display(): void;
 }
 
-
-class WeatherData implements hfSubject 
+class WeatherData implements hfSubject
 {
     private array $observers;
+
     private float $temprature;
+
     private float $humidity;
+
     private float $pressure;
 
     public function __construct()
@@ -71,10 +76,12 @@ class WeatherData implements hfSubject
         return $this->humidity;
     }
 }
-class CurrentConditionsDisplay implements hfObserver, DisplayElement
+class CurrentConditionsDisplay implements DisplayElement, hfObserver
 {
     private float $temperature;
+
     private float $humidity;
+
     private WeatherData $weatherData;
 
     public function __construct(WeatherData $weatherData)
@@ -92,7 +99,7 @@ class CurrentConditionsDisplay implements hfObserver, DisplayElement
 
     public function display(): void
     {
-        print("現在の気象状況は : 温度->$this->temperature  湿度->$this->humidity").PHP_EOL;
+        echo ("現在の気象状況は : 温度->$this->temperature  湿度->$this->humidity") . PHP_EOL;
     }
 }
 

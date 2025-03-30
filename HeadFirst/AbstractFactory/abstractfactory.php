@@ -5,21 +5,26 @@ declare(strict_types=1);
 interface PizzaIngredientFactory
 {
     public function createDough();
+
     public function createSauce();
+
     public function createCheese();
+
     public function createVeggies();
+
     public function createPepperoni();
+
     public function createClam();
 }
 
 class NYPizzaIngredientFactory implements PizzaIngredientFactory
 {
-    public function createDough() : Dough
+    public function createDough(): Dough
     {
         return new ThinCrustDough();
     }
 
-    public function createSauce() : Sauce
+    public function createSauce(): Sauce
     {
         return new MarinaraSauce();
     }
@@ -47,12 +52,12 @@ class NYPizzaIngredientFactory implements PizzaIngredientFactory
 
 class ChicagoPizzaIngredientFactory implements PizzaIngredientFactory
 {
-    public function createDough() : Dough
+    public function createDough(): Dough
     {
         return new ThinCrustDough();
     }
 
-    public function createSauce() : Sauce
+    public function createSauce(): Sauce
     {
         return new MarinaraSauce();
     }
@@ -81,27 +86,32 @@ class ChicagoPizzaIngredientFactory implements PizzaIngredientFactory
 abstract class Pizza
 {
     protected string $name;
+
     protected $dough;
+
     protected $veggies;
+
     protected $cheese;
+
     protected $pepperoni;
+
     protected $clam;
 
-    protected abstract function prepare();
+    abstract protected function prepare();
 
     final public function bake()
     {
-        print('180度で25分間焼く').PHP_EOL;
+        echo '180度で25分間焼く' . PHP_EOL;
     }
 
     final public function cut()
     {
-        print('ピザを扇形にカットする').PHP_EOL;
+        echo 'ピザを扇形にカットする' . PHP_EOL;
     }
 
     final public function box()
     {
-        print('PizzaStoreの箱にピザを入れる').PHP_EOL;
+        echo 'PizzaStoreの箱にピザを入れる' . PHP_EOL;
     }
 
     final public function setName(string $name)
@@ -126,13 +136,12 @@ class CheesePizza extends Pizza
 
     public function prepare()
     {
-        print($this->name . 'を下準備').PHP_EOL;
+        echo ($this->name . 'を下準備') . PHP_EOL;
         $this->dough = $this->ingredientFactory->createDough();
         $this->sauce = $this->ingredientFactory->createSauce();
         $this->cheese = $this->ingredientFactory->createCheese();
     }
 }
-
 
 class ClamPizza extends Pizza
 {
@@ -145,7 +154,7 @@ class ClamPizza extends Pizza
 
     public function prepare()
     {
-        print($this->name . 'を下準備').PHP_EOL;
+        echo ($this->name . 'を下準備') . PHP_EOL;
         $this->dough = $this->ingredientFactory->createDough();
         $this->sauce = $this->ingredientFactory->createSauce();
         $this->cheese = $this->ingredientFactory->createCheese();
@@ -164,7 +173,7 @@ class VeggiePizza extends Pizza
 
     public function prepare()
     {
-        print($this->name . 'を下準備').PHP_EOL;
+        echo ($this->name . 'を下準備') . PHP_EOL;
         $this->dough = $this->ingredientFactory->createDough();
         $this->sauce = $this->ingredientFactory->createSauce();
         $this->cheese = $this->ingredientFactory->createCheese();
@@ -183,7 +192,7 @@ class PepperoniPizza extends Pizza
 
     public function prepare()
     {
-        print($this->name . 'を下準備').PHP_EOL;
+        echo ($this->name . 'を下準備') . PHP_EOL;
         $this->dough = $this->ingredientFactory->createDough();
         $this->sauce = $this->ingredientFactory->createSauce();
         $this->cheese = $this->ingredientFactory->createCheese();
@@ -206,7 +215,7 @@ abstract class PizzaStore
         return $pizza;
     }
 
-    protected abstract function createPizza(string $type);
+    abstract protected function createPizza(string $type);
 }
 
 class NYPizzaStore extends PizzaStore
@@ -229,6 +238,7 @@ class NYPizzaStore extends PizzaStore
             $pizza = new PepperoniPizza($ingredientFactory);
             $pizza->setName('ニューヨークスタイルペパロニピザ');
         }
+
         return $pizza;
     }
 }
@@ -253,18 +263,19 @@ class ChicagoPizzaStore extends PizzaStore
             $pizza = new PepperoniPizza($ingredientFactory);
             $pizza->setName('シカゴスタイルペパロニピザ');
         }
+
         return $pizza;
     }
 }
 
 interface Dough
 {
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class ThinCrustDough implements Dough
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Thin Crust Dough';
     }
@@ -272,12 +283,12 @@ class ThinCrustDough implements Dough
 
 interface Sauce
 {
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class MarinaraSauce implements Sauce
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Marinara Sauce';
     }
@@ -285,12 +296,12 @@ class MarinaraSauce implements Sauce
 
 interface Cheese
 {
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class ReggianoCheese implements Cheese
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Reggiano Cheese';
     }
@@ -298,13 +309,12 @@ class ReggianoCheese implements Cheese
 
 interface Veggies
 {
-    public function toString() : string;
+    public function toString(): string;
 }
-
 
 class Garlic implements Veggies
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Garlic';
     }
@@ -312,7 +322,7 @@ class Garlic implements Veggies
 
 class Onion implements Veggies
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Onion';
     }
@@ -320,7 +330,7 @@ class Onion implements Veggies
 
 class Mushroom implements Veggies
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Mushroom';
     }
@@ -328,7 +338,7 @@ class Mushroom implements Veggies
 
 class RedPepper implements Veggies
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'RedPepper';
     }
@@ -336,12 +346,12 @@ class RedPepper implements Veggies
 
 interface Pepperoni
 {
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class SlicedPepperoni implements Pepperoni
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Sliced Pepperoni';
     }
@@ -349,22 +359,21 @@ class SlicedPepperoni implements Pepperoni
 
 interface Clams
 {
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class FreshClams implements Clams
 {
-    public function toString() : string
+    public function toString(): string
     {
         return 'Fresh Clams from Long Island Sound';
     }
 }
 
-
 $nyPizzStore = new NYPizzaStore();
 $ny = $nyPizzStore->orderPizza('チーズ');
-print($ny->getName()).PHP_EOL;
+echo $ny->getName() . PHP_EOL;
 
 $chicagoPizzStore = new ChicagoPizzaStore();
 $ch = $chicagoPizzStore->orderPizza('チーズ');
-print($ch->getName()).PHP_EOL;
+echo $ch->getName() . PHP_EOL;

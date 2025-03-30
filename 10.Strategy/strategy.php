@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 interface Character
 {
     public function dance();
+
     public function walk();
 }
 
@@ -13,12 +15,12 @@ class Mickey implements Character
 
     public function dance()
     {
-        print($this->name . ' tap dance').PHP_EOL;
+        echo ($this->name . ' tap dance') . PHP_EOL;
     }
 
     public function walk()
     {
-        print($this->name . ' wave hands').PHP_EOL;
+        echo ($this->name . ' wave hands') . PHP_EOL;
     }
 }
 
@@ -28,29 +30,30 @@ class Donald implements Character
 
     public function dance()
     {
-        print($this->name . ' butt-wiggling dance').PHP_EOL;
+        echo ($this->name . ' butt-wiggling dance') . PHP_EOL;
     }
 
     public function walk()
     {
-        print($this->name . ' quack').PHP_EOL;
+        echo ($this->name . ' quack') . PHP_EOL;
     }
 }
 
 class Performance
 {
     private Character $character;
+
     public function __construct(Character $character)
     {
         $this->character = $character;
     }
 
-    public function dancePerformance() : void
+    public function dancePerformance(): void
     {
         $this->character->dance();
     }
 
-    public function walkPerformance() : void
+    public function walkPerformance(): void
     {
         $this->character->walk();
     }
@@ -65,4 +68,3 @@ $donald = new Donald();
 $pf2 = new Performance($donald);
 $pf2->dancePerformance();
 $pf2->walkPerformance();
-

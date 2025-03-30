@@ -1,10 +1,11 @@
 <?php
 
-
 abstract class DisplayImpl
 {
     abstract public function rawOpen();
+
     abstract public function rawPrint();
+
     abstract public function rawClose();
 }
 
@@ -50,7 +51,7 @@ class CountDisplay extends Display
     public function multiDisplay(int $times)
     {
         $this->open();
-        for ($i=0; $i<$times; $i++) {
+        for ($i = 0; $i < $times; $i++) {
             $this->print();
         }
         $this->close();
@@ -60,6 +61,7 @@ class CountDisplay extends Display
 class StringDisplayImpl extends DisplayImpl
 {
     private string $string;
+
     private int $width;
 
     public function __construct(string $string)
@@ -75,7 +77,7 @@ class StringDisplayImpl extends DisplayImpl
 
     public function rawPrint()
     {
-        print('|' . $this->string . '|').PHP_EOL;
+        echo ('|' . $this->string . '|') . PHP_EOL;
     }
 
     public function rawClose()
@@ -83,17 +85,15 @@ class StringDisplayImpl extends DisplayImpl
         $this->printLine();
     }
 
-
     private function printLine()
     {
-        print("+");
-        for ($i=0; $i<$this->width; $i++) {
-            print('-');
+        echo '+';
+        for ($i = 0; $i < $this->width; $i++) {
+            echo '-';
         }
-        print("+").PHP_EOL;
+        echo '+' . PHP_EOL;
     }
 }
-
 
 $d1 = new Display(new StringDisplayImpl('hello World!!!'));
 $d1->display();

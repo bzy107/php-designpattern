@@ -1,15 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 abstract class AbstructPrints
 {
     abstract protected function printWeak();
+
     abstract protected function printStrong();
 }
 
 class Banner
 {
     public string $string;
+
     public function __construct(string $string)
     {
         $this->string = $string;
@@ -17,19 +20,19 @@ class Banner
 
     public function showWithParen()
     {
-        print("(" . $this->string . ")").PHP_EOL;
+        echo ('(' . $this->string . ')') . PHP_EOL;
     }
 
     public function showWithAster()
     {
-        print("*" . $this->string . "*").PHP_EOL;
+        echo ('*' . $this->string . '*') . PHP_EOL;
     }
 }
 
-
-class PrintBanner extends AbstructPrints 
+class PrintBanner extends AbstructPrints
 {
     private Banner $banner;
+
     public function __construct(string $string)
     {
         $this->banner = new Banner($string);

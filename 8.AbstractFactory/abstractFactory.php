@@ -1,27 +1,27 @@
 <?php
 
-
 interface WriterFactory
 {
-    public function createCsvWriter() : CsvWriter;
-    public function createJsonWriter() : JsonWriter;
+    public function createCsvWriter(): CsvWriter;
+
+    public function createJsonWriter(): JsonWriter;
 }
 
 interface CsvWriter
 {
-    public function write(array $line) : string;
+    public function write(array $line): string;
 }
 
 interface JsonWriter
 {
-    public function write(array $data, bool $formatted) : string;
+    public function write(array $data, bool $formatted): string;
 }
 
 class UnixCsvWriter implements CsvWriter
 {
-    public function write(array $line) : string
+    public function write(array $line): string
     {
-        return join(',', $line) . "\n";
+        return implode(',', $line) . "\n";
     }
 }
 
@@ -56,7 +56,7 @@ class WinCsvWriter implements CsvWriter
 {
     public function write(array $line): string
     {
-        return join(',', $line) . "\r\n";
+        return implode(',', $line) . "\r\n";
     }
 }
 
@@ -67,7 +67,6 @@ class WinJsonWriter implements JsonWriter
         return json_encode($data, JSON_PRETTY_PRINT);
     }
 }
-
 
 class WinWriterFactory implements WriterFactory
 {
@@ -82,16 +81,9 @@ class WinWriterFactory implements WriterFactory
     }
 }
 
-
-
-
 $winf = new WinWriterFactory();
 
 $winarray = ['test', 'bbb'];
 $wincsv = $winf->createCsvWriter();
 
 var_dump($wincsv->write($winarray));
-
-
-
-

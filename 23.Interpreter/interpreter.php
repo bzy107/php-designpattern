@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 abstract class AbstractExp
 {
-    abstract public function interpret(Context $context) : bool;
+    abstract public function interpret(Context $context): bool;
 }
-
 
 class Context
 {
     private array $poolVariable;
 
-    public function lookUp(string $name) : bool
+    public function lookUp(string $name): bool
     {
-        if (!key_exists($name, $this->poolVariable)) {
+        if (! array_key_exists($name, $this->poolVariable)) {
             throw new Exception("no exist variable: $name");
         }
 
@@ -33,12 +32,12 @@ class VariableExp extends AbstractExp
     {
     }
 
-    public function interpret(Context $context) : bool
+    public function interpret(Context $context): bool
     {
         return $context->lookUp($this->name);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -68,7 +67,6 @@ class OrExp extends AbstractExp
     }
 }
 
-
 $context = new Context();
 $a = new VariableExp('A');
 $b = new VariableExp('B');
@@ -81,13 +79,12 @@ $context->assign($c, true);
 $exp1 = new OrExp($a, $b);
 $result1 = $exp1->interpret($context);
 
-print($result1).PHP_EOL;
-
+echo $result1 . PHP_EOL;
 
 $exp2 = new OrExp($exp1, $c);
 $result2 = $exp2->interpret($context);
 
-print($result2).PHP_EOL;
+echo $result2 . PHP_EOL;
 
 $d = new VariableExp('D');
 $e = new VariableExp('E');
@@ -100,10 +97,9 @@ $context->assign($f, false);
 $exp3 = new AndExp($d, $e);
 $result3 = $exp3->interpret($context);
 
-print($result3).PHP_EOL;
+echo $result3 . PHP_EOL;
 
 $exp4 = new AndExp($exp3, $f);
 $result4 = $exp4->interpret($context);
 
-print($result4).PHP_EOL;
-
+echo $result4 . PHP_EOL;

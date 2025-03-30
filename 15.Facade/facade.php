@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-define("FILEDIR", dirname(__FILE__));
+define('FILEDIR', dirname(__FILE__));
 
 class Item
 {
     public function __construct(
-        private int $id, 
-        private string $name, 
+        private int $id,
+        private string $name,
         private int $price
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
@@ -38,8 +37,7 @@ class OrderItem
     public function __construct(
         private Item $item,
         private int $amount
-    )
-    {
+    ) {
         $this->item = $item;
         $this->amount = $amount;
     }
@@ -58,6 +56,7 @@ class OrderItem
 class Order
 {
     private $items;
+
     public function __construct()
     {
         $this->items = [];
@@ -77,22 +76,23 @@ class Order
 class ItemDao
 {
     private static $instance;
+
     private $items;
 
     public function __construct()
     {
-        $fp = fopen(FILEDIR."/item_data.txt", 'r');
+        $fp = fopen(FILEDIR . '/item_data.txt', 'r');
 
         $dummy = fgets($fp, 4096);
 
         $this->items = [];
-        while($buffer = fgets($fp, 4096)) {
+        while ($buffer = fgets($fp, 4096)) {
             $itemId = trim(substr($buffer, 0, 10));
             $itemName = trim(substr($buffer, 10, 20));
             $itemPrace = trim(substr($buffer, 30));
 
-            $item = new Item((int)$itemId, $itemName, (int)$itemPrace);
-            $this->items[$item->getId()] = $item; 
+            $item = new Item((int) $itemId, $itemName, (int) $itemPrace);
+            $this->items[$item->getId()] = $item;
         }
 
         fclose($fp);
@@ -100,9 +100,10 @@ class ItemDao
 
     public static function getInstance()
     {
-        if (!isset(self::$instance)) {
+        if (! isset(self::$instance)) {
             self::$instance = new ItemDao();
         }
+
         return self::$instance;
     }
 
@@ -117,38 +118,37 @@ class ItemDao
 
     public function setAside(OrderItem $orderItem)
     {
-        print($orderItem->getItem()->getName() . " の在庫引当をおこないました").PHP_EOL;
+        echo ($orderItem->getItem()->getName() . ' の在庫引当をおこないました') . PHP_EOL;
     }
 
-    public final function __clone()
+    final public function __clone()
     {
         throw new RuntimeException('CloneIs not allowed against ' . get_class($this));
     }
 }
 
-
 class OrderDao
 {
     public static function createOrder(Order $order)
     {
-        print('以下の内容で注文データを作成しました').PHP_EOL;
-        print("'<table border='1'").PHP_EOL;
-        print('<tr>').PHP_EOL;
-        print('<th>商品番号</th>').PHP_EOL;
-        print('<th>商品名</th>').PHP_EOL;
-        print('<th>単価</th>').PHP_EOL;
-        print('<th>数量</th>').PHP_EOL;
-        print('<th>金額</th>').PHP_EOL;
-        print('</tr>').PHP_EOL;
+        echo '以下の内容で注文データを作成しました' . PHP_EOL;
+        echo "'<table border='1'" . PHP_EOL;
+        echo '<tr>' . PHP_EOL;
+        echo '<th>商品番号</th>' . PHP_EOL;
+        echo '<th>商品名</th>' . PHP_EOL;
+        echo '<th>単価</th>' . PHP_EOL;
+        echo '<th>数量</th>' . PHP_EOL;
+        echo '<th>金額</th>' . PHP_EOL;
+        echo '</tr>' . PHP_EOL;
 
         foreach ($order->getItems() as $orderItem) {
-            print("<tr>").PHP_EOL;
-            print("<td>" . $orderItem->getItem()->getId() . "</td>").PHP_EOL;
-            print("<td>" . $orderItem->getItem()->getName() . "</td>").PHP_EOL;
-            print("<td>" . $orderItem->getItem()->getPrice() . "</td>").PHP_EOL;
-            print("<td>" . $orderItem->getAmount() . "</td>").PHP_EOL;
-            print("<td>" . $orderItem->getItem()->getPrice() * $orderItem->getAmount() . "</td>").PHP_EOL;
-            print("</table>").PHP_EOL;
+            echo '<tr>' . PHP_EOL;
+            echo ('<td>' . $orderItem->getItem()->getId() . '</td>') . PHP_EOL;
+            echo ('<td>' . $orderItem->getItem()->getName() . '</td>') . PHP_EOL;
+            echo ('<td>' . $orderItem->getItem()->getPrice() . '</td>') . PHP_EOL;
+            echo ('<td>' . $orderItem->getAmount() . '</td>') . PHP_EOL;
+            echo ('<td>' . $orderItem->getItem()->getPrice() * $orderItem->getAmount() . '</td>') . PHP_EOL;
+            echo '</table>' . PHP_EOL;
         }
     }
 }
@@ -166,7 +166,6 @@ class OrderManager
     }
 }
 
-
 $order = new Order();
 $itemOrder = ItemDao::getInstance();
 
@@ -175,6 +174,5 @@ $order->addItem(new OrderItem($itemOrder->findById(2), 1));
 $order->addItem(new OrderItem($itemOrder->findById(3), 3));
 
 OrderManager::order($order);
-
 
 // https://shimooka.hateblo.jp/entry/20141215/1418620292

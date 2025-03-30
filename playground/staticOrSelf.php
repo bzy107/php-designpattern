@@ -8,13 +8,13 @@ class ParentClass
 
     public function __construct()
     {
-        echo 'Parent construct'.PHP_EOL;
+        echo 'Parent construct' . PHP_EOL;
     }
 
     public function getClassName()
     {
-        echo self::$className.PHP_EOL; // 定義された時のクラスを指す
-        echo static::$className.PHP_EOL; // 実行される時のクラスを指す
+        echo self::$className . PHP_EOL; // 定義された時のクラスを指す
+        echo static::$className . PHP_EOL; // 実行される時のクラスを指す
     }
 
     public static function getInstance()
@@ -30,12 +30,11 @@ class ChildClass extends ParentClass
 
     public function __construct()
     {
-        echo 'Children construct'.PHP_EOL;
+        echo 'Children construct' . PHP_EOL;
     }
 }
 
 (new ParentClass())->getClassName();
 (new ChildClass())->getClassName();
-
 
 ChildClass::getInstance();

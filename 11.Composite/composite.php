@@ -1,10 +1,11 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 abstract class Entry
 {
     private $code;
+
     private $name;
 
     public function __construct($code, $name)
@@ -12,7 +13,8 @@ abstract class Entry
         $this->code = $code;
         $this->name = $name;
     }
-    public abstract function add(Entry $entry);
+
+    abstract public function add(Entry $entry);
 
     public function dump()
     {
@@ -44,7 +46,6 @@ class Component extends Entry
     }
 }
 
-
 class Leaf extends Entry
 {
     public function __construct($code, $name)
@@ -57,7 +58,6 @@ class Leaf extends Entry
         throw new Exception('add not allowed');
     }
 }
-
 
 $root = new Component('001', 'root1');
 $group1_1 = new Component('001/001', 'group1/001');

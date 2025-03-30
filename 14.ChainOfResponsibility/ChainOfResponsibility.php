@@ -5,6 +5,7 @@ declare(strict_types=1);
 class Trouble
 {
     private int $number;
+
     public function __construct(int $number)
     {
         $this->number = $number;
@@ -24,6 +25,7 @@ class Trouble
 abstract class Support
 {
     private string $name;
+
     private ?Support $next = null;
 
     public function __construct(string $name)
@@ -39,6 +41,7 @@ abstract class Support
     public function setNext(Support $next)
     {
         $this->next = $next;
+
         return $next;
     }
 
@@ -48,7 +51,7 @@ abstract class Support
             $this->done($trouble);
         } elseif ($this->next !== null) {
             $this->next->support($trouble);
-        } 
+        }
         $this->fail($trouble);
     }
 
@@ -61,12 +64,12 @@ abstract class Support
 
     protected function done(Trouble $trouble)
     {
-        print("$trouble is resolved by $this.").PHP_EOL;
+        echo ("$trouble is resolved by $this.") . PHP_EOL;
     }
 
     protected function fail(Trouble $trouble)
     {
-        print("$trouble cannot be resolved.").PHP_EOL;
+        echo ("$trouble cannot be resolved.") . PHP_EOL;
     }
 }
 
@@ -97,7 +100,8 @@ class LimitSupport extends Support
     {
         if ($trouble->getNumber() < $this->limit) {
             return true;
-        } 
+        }
+
         return false;
     }
 }
@@ -114,10 +118,10 @@ class OddSupport extends Support
         if ($trouble->getNumber() % 2 === 1) {
             return true;
         }
+
         return false;
     }
 }
-
 
 class SpecialSupport extends Support
 {
@@ -134,21 +138,21 @@ class SpecialSupport extends Support
         if ($trouble->getNumber() === $this->number) {
             return true;
         }
+
         return false;
     }
 }
 
-$alice = new NoSupport("Alice");
-$bob = new LimitSupport("Bob", 100);
-$charlie = new SpecialSupport("Charlie", 429);
-$diana = new LimitSupport("Diana", 200);
-$elmo = new OddSupport("Elmo");
-$fred = new LimitSupport("Fred", 300);
+$alice = new NoSupport('Alice');
+$bob = new LimitSupport('Bob', 100);
+$charlie = new SpecialSupport('Charlie', 429);
+$diana = new LimitSupport('Diana', 200);
+$elmo = new OddSupport('Elmo');
+$fred = new LimitSupport('Fred', 300);
 
 $alice->setNext($bob)->setNext($charlie)->setNext($diana)->setNext($elmo)->setNext($fred);
 // $alice->setNext($bob);
 
-for ($i=0; $i<500; $i+= 33) {
+for ($i = 0; $i < 500; $i += 33) {
     $alice->support(new Trouble($i));
 }
-

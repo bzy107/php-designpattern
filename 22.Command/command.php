@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 interface Command
 {
     public function execute();
@@ -42,11 +41,10 @@ class AddMessageDateCommand implements UndoableCommand
     }
 }
 
-
-
 class Receiver
 {
     private bool $enableDate = false;
+
     private array $output = [];
 
     public function write(string $str)
@@ -58,9 +56,9 @@ class Receiver
         $this->output[] = $str;
     }
 
-    public function getOutput() : string
+    public function getOutput(): string
     {
-        return join(PHP_EOL, $this->output);
+        return implode(PHP_EOL, $this->output);
     }
 
     public function enableDate()
@@ -89,43 +87,36 @@ class Invoker
     }
 }
 
-
 $invoker = new Invoker();
 $receiver = new Receiver();
 
 $invoker->setCommand(new HelloCommand($receiver));
 $invoker->run();
-print($receiver->getOutput()).PHP_EOL;
+echo $receiver->getOutput() . PHP_EOL;
 
-
-print('---').PHP_EOL;
-
+echo '---' . PHP_EOL;
 
 $invoker2 = new Invoker();
 $receiver2 = new Receiver();
 
 $invoker2->setCommand(new HelloCommand($receiver2));
 $invoker2->run();
-print($receiver2->getOutput()).PHP_EOL;
+echo $receiver2->getOutput() . PHP_EOL;
 
-print('---').PHP_EOL;
-
-
-
+echo '---' . PHP_EOL;
 
 $messageDateCommand = new AddMessageDateCommand($receiver2);
 $messageDateCommand->execute();
 
 $invoker2->run();
-print($receiver2->getOutput()).PHP_EOL;
+echo $receiver2->getOutput() . PHP_EOL;
 
-print('---').PHP_EOL;
+echo '---' . PHP_EOL;
 
 $messageDateCommand->undo();
 $invoker2->run();
 
-print('---').PHP_EOL;
+echo '---' . PHP_EOL;
 
-
-print($receiver2->getOutput()).PHP_EOL;
-print('---').PHP_EOL;
+echo $receiver2->getOutput() . PHP_EOL;
+echo '---' . PHP_EOL;

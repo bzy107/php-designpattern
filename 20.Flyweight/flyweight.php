@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 interface Text
 {
-    public function render(string $extrinsicState) : string;
+    public function render(string $extrinsicState): string;
 }
 
 class Word implements Text
@@ -13,7 +13,7 @@ class Word implements Text
     {
     }
 
-    public function render(string $extrinsicState) : string
+    public function render(string $extrinsicState): string
     {
         return sprintf('Word %s with font %s', $this->name, $extrinsicState);
     }
@@ -25,7 +25,7 @@ class Characters implements Text
     {
     }
 
-    public function render(string $extrinsicState) : string
+    public function render(string $extrinsicState): string
     {
         return sprintf('Character %s with font %s', $this->name, $extrinsicState);
     }
@@ -35,16 +35,16 @@ class TextFactory implements Countable
 {
     private array $charPool = [];
 
-    public function get(string $name) : Text
+    public function get(string $name): Text
     {
-        if (!isset($this->charPool[$name])) {
+        if (! isset($this->charPool[$name])) {
             $this->charPool[$name] = $this->create($name);
         }
 
         return $this->charPool[$name];
     }
 
-    private function create(string $name) : Text
+    private function create(string $name): Text
     {
         if (strlen($name) === 1) {
             return new Characters($name);
@@ -53,13 +53,11 @@ class TextFactory implements Countable
         }
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->charPool);
     }
 }
-
-
 
 $characters = [
     'a',
@@ -92,15 +90,14 @@ $characters = [
 
 $fonts = ['Arial', 'Times New Roman', 'Verdana', 'Helvetica'];
 
-
 $factory = new TextFactory();
-for ($i=0; $i<=10; $i++) {
+for ($i = 0; $i <= 10; $i++) {
     foreach ($characters as $c) {
         foreach ($fonts as $f) {
             $flyweight = $factory->get($c);
             $renderd = $flyweight->render($f);
 
-            print($renderd).PHP_EOL;
+            echo $renderd . PHP_EOL;
         }
     }
 }
@@ -109,15 +106,8 @@ foreach ($fonts as $fs) {
     $flyweight = $factory->get($fs);
     $renderd = $flyweight->render('foobar');
 
-    print($renderd).PHP_EOL;
+    echo $renderd . PHP_EOL;
 }
 
-print(count($characters) + count($fonts)).PHP_EOL;
-print($factory->count()).PHP_EOL;
-
-
-
-
-
-
-
+echo (count($characters) + count($fonts)) . PHP_EOL;
+echo $factory->count() . PHP_EOL;

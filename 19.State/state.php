@@ -6,7 +6,7 @@ class OrderContext
 {
     private Statesss $state;
 
-    public static function create() : OrderContext
+    public static function create(): OrderContext
     {
         $order = new self();
         $order->state = new StateCreated();
@@ -34,7 +34,7 @@ interface Statesss
 {
     public function proceedToNext(OrderContext $context);
 
-    public function toString() : string;
+    public function toString(): string;
 }
 
 class StateCreated implements Statesss
@@ -44,7 +44,7 @@ class StateCreated implements Statesss
         $context->setState(new StateShipped());
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return 'created';
     }
@@ -57,7 +57,7 @@ class StateShipped implements Statesss
         $context->setState(new StateDone());
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return 'shipped';
     }
@@ -77,22 +77,18 @@ class StateDone implements Statesss
 }
 
 $createContext = OrderContext::create();
-print($createContext->toString()).PHP_EOL; // expected created
+echo $createContext->toString() . PHP_EOL; // expected created
 
 $shippedContext = OrderContext::create();
 $shippedContext->proceedToNext();
-print($shippedContext->toString()).PHP_EOL; // expected shipped
-
+echo $shippedContext->toString() . PHP_EOL; // expected shipped
 
 $doneContext = OrderContext::create();
 $doneContext->proceedToNext();
 $doneContext->proceedToNext();
-print($doneContext->toString()).PHP_EOL; // expected done
-
+echo $doneContext->toString() . PHP_EOL; // expected done
 
 $donedoneContext = OrderContext::create();
 $donedoneContext->proceedToNext();
 $donedoneContext->proceedToNext();
-print($donedoneContext->toString()).PHP_EOL; // expected done
-
-
+echo $donedoneContext->toString() . PHP_EOL; // expected done

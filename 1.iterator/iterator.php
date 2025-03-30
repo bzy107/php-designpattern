@@ -1,46 +1,45 @@
 <?php
+
 declare(strict_types=1);
-
-
 
 // 著者一覧のデータ[詳細]
 $book_list = [
-	[
-		'family-name' => 'Matumoto',
-		'given-name'  => 'Jun',
-		'id'          => 5
-	],
-	[
-		'family-name' => 'Kobayashi',
-		'given-name'  => 'Kentaro',
-		'id'          => 1,
-	],
-	[
-		'family-name' => 'Mudata',
-		'given-name'  => 'Shuichi',
-		'id'          => 2
-	],
-	[
-		'family-name' => 'Kamijou',
-		'given-name'  => 'Touma',
-		'id'          => 4
-	],
-	[
-		'family-name' => 'Murakami',
-		'given-name'  => 'Ryu',
-		'id'          => 3
-	],
+    [
+        'family-name' => 'Matumoto',
+        'given-name' => 'Jun',
+        'id' => 5,
+    ],
+    [
+        'family-name' => 'Kobayashi',
+        'given-name' => 'Kentaro',
+        'id' => 1,
+    ],
+    [
+        'family-name' => 'Mudata',
+        'given-name' => 'Shuichi',
+        'id' => 2,
+    ],
+    [
+        'family-name' => 'Kamijou',
+        'given-name' => 'Touma',
+        'id' => 4,
+    ],
+    [
+        'family-name' => 'Murakami',
+        'given-name' => 'Ryu',
+        'id' => 3,
+    ],
 ];
 
-
-interface Aggregate 
+interface Aggregate
 {
     public function createiterator();
 }
 
-interface BookIterator 
+interface BookIterator
 {
     public function hasNext();
+
     public function next();
 }
 
@@ -71,7 +70,6 @@ class BooksAggregate implements Aggregate
         return new BookListIterator($this->bookList);
         // return new BookListIterator2($this->bookList); // ここで具象クラスを切り替えできる
     }
-
 }
 
 /**
@@ -80,6 +78,7 @@ class BooksAggregate implements Aggregate
 class BookListIterator implements BookIterator
 {
     private array $books;
+
     private int $index = 0;
 
     public function __construct(array $books)
@@ -87,22 +86,22 @@ class BookListIterator implements BookIterator
         $this->books = $books;
     }
 
-    public function hasNext() : bool
+    public function hasNext(): bool
     {
         return isset($this->books[$this->index]);
     }
 
-    public function next() : array
+    public function next(): array
     {
         $book = [];
         $bk = $this->books[$this->index++];
         $book['books'] = $bk['id'];
         $book['last'] = $bk['family-name'];
         $book['first'] = $bk['given-name'];
+
         return $book;
     }
 }
-
 
 /**
  * 本のイテレータ2
@@ -110,6 +109,7 @@ class BookListIterator implements BookIterator
 class BookListIterator2 implements BookIterator
 {
     private array $books;
+
     private int $index = 0;
 
     public function __construct(array $books)
@@ -117,18 +117,19 @@ class BookListIterator2 implements BookIterator
         $this->books = $books;
     }
 
-    public function hasNext() : bool
+    public function hasNext(): bool
     {
         return isset($this->books[$this->index]);
     }
 
-    public function next() : array
+    public function next(): array
     {
         $book = [];
         $bk = $this->books[$this->index++];
         $book['books'] = $bk['family-name'];
         $book['last'] = $bk['id'];
         $book['first'] = $bk['given-name'];
+
         return $book;
     }
 }
@@ -147,11 +148,10 @@ class DisplayClient
 
     public function getBooks()
     {
-        while($this->bookIterator->hasNext()) 
-        {
+        while ($this->bookIterator->hasNext()) {
             $book = $this->bookIterator->next();
             // echo $book;
-            echo sprintf("%s %s %s", $book['books'], $book['last'], $book['first']);
+            echo sprintf('%s %s %s', $book['books'], $book['last'], $book['first']);
             echo PHP_EOL;
         }
     }

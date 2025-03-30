@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 interface Printable
 {
-    public function setPrinterName(string $name) : void;
-    public function getPrinterName() : string;
-    public function prints(string $string) : void;
+    public function setPrinterName(string $name): void;
+
+    public function getPrinterName(): string;
+
+    public function prints(string $string): void;
 }
 
 class Printer implements Printable
@@ -27,24 +29,24 @@ class Printer implements Printable
         return $this->name;
     }
 
-    public function prints(string $string) : void
+    public function prints(string $string): void
     {
-        print('=== ' . $this->name . ' ===').PHP_EOL;
-        print($string).PHP_EOL;
+        echo ('=== ' . $this->name . ' ===') . PHP_EOL;
+        echo $string . PHP_EOL;
     }
 
     private function heavyJob(string $msg)
     {
-        print($msg);
-        for ($i=0; $i<5; $i++) {
+        echo $msg;
+        for ($i = 0; $i < 5; $i++) {
             try {
                 sleep(1);
             } catch (Exception $e) {
-                print('error : ' . $e->getMessage());
+                echo 'error : ' . $e->getMessage();
             }
-            print('.');
+            echo '.';
         }
-        print('complete!').PHP_EOL;
+        echo 'complete!' . PHP_EOL;
     }
 }
 
@@ -72,7 +74,7 @@ class PrinterProxy implements Printable
         return $this->name;
     }
 
-    public function prints(string $string) : void
+    public function prints(string $string): void
     {
         $this->realize();
         $this->real->prints($string);
@@ -86,10 +88,9 @@ class PrinterProxy implements Printable
     }
 }
 
-
 $p = new PrinterProxy('Alice', 'Printer');
 
-print('This name is ' . $p->getPrinterName() . '.').PHP_EOL;
+echo ('This name is ' . $p->getPrinterName() . '.') . PHP_EOL;
 $p->setPrinterName('Bob');
-print('This name is ' . $p->getPrinterName() . '.').PHP_EOL;
+echo ('This name is ' . $p->getPrinterName() . '.') . PHP_EOL;
 $p->prints('hello world');

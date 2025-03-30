@@ -7,29 +7,32 @@ abstract class Product
 
 abstract class Factory
 {
-    final public function create(string $own) : Product
+    final public function create(string $own): Product
     {
         $p = $this->createProduct($own);
         $this->registerProduct($p);
+
         return $p;
     }
 
-    abstract protected function createProduct(string $own) : Product;
+    abstract protected function createProduct(string $own): Product;
+
     abstract protected function registerProduct(Product $product);
 }
 
 class IDCard extends Product
 {
     private string $owner;
+
     public function __construct(string $owner)
     {
-        print($owner . ' のカードを作ります').PHP_EOL;
+        echo ($owner . ' のカードを作ります') . PHP_EOL;
         $this->owner = $owner;
     }
 
-    public function use() : void
+    public function use(): void
     {
-        print($this->owner . ' のカードを使います').PHP_EOL;
+        echo ($this->owner . ' のカードを使います') . PHP_EOL;
     }
 
     public function getOwner()
@@ -41,7 +44,8 @@ class IDCard extends Product
 class IDCardFactory extends Factory
 {
     private array $owners = [];
-    protected function createProduct(string $owner) : IDCard
+
+    protected function createProduct(string $owner): IDCard
     {
         return new IDCard($owner);
     }
@@ -51,12 +55,11 @@ class IDCardFactory extends Factory
         array_push($this->owners, $product);
     }
 
-    public function getOwners() : array
+    public function getOwners(): array
     {
         return $this->owners;
     }
 }
-
 
 $factory = new IDCardFactory();
 $card1 = $factory->create('test user');
@@ -67,5 +70,4 @@ $card1->use();
 $card2->use();
 $card3->use();
 
-
-print($card1->getOwner()).PHP_EOL;
+echo $card1->getOwner() . PHP_EOL;

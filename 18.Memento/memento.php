@@ -14,13 +14,14 @@ class Memento
     }
 }
 
-
-
 class State implements \Stringable
 {
     public const STATE_CREATED = 'created';
+
     public const STATE_OPENED = 'opened';
+
     public const STATE_ASSIGNED = 'assigned';
+
     public const STATE_CLOSED = 'closed';
 
     private string $state;
@@ -41,7 +42,7 @@ class State implements \Stringable
 
     private static function ensureIsValidState(string $state)
     {
-        if (!in_array($state, self::$validStates)) {
+        if (! in_array($state, self::$validStates)) {
             throw new InvalidArgumentException('Invalid stae given');
         }
     }
@@ -76,7 +77,7 @@ class Ticket
         $this->currentState = new State(State::STATE_CLOSED);
     }
 
-    public function saveToMemento() : Memento
+    public function saveToMemento(): Memento
     {
         return new Memento(clone $this->currentState);
     }
@@ -86,7 +87,7 @@ class Ticket
         $this->currentState = $memento->getState();
     }
 
-    public function getState() : State
+    public function getState(): State
     {
         return $this->currentState;
     }
@@ -97,21 +98,21 @@ $ticket->open();
 
 $openedState = $ticket->getState();
 
-print($openedState).PHP_EOL;  // expected: opened
+echo $openedState . PHP_EOL;  // expected: opened
 
 $mement = $ticket->saveToMemento();
 
-print('memento state : '.$mement->getState()).PHP_EOL;
+echo ('memento state : ' . $mement->getState()) . PHP_EOL;
 
 $ticket->assign();
-print($ticket->getState()).PHP_EOL; // expected: assigned
+echo $ticket->getState() . PHP_EOL; // expected: assigned
 
 $ticket->restoreFromMemento($mement);
-print($ticket->getState()).PHP_EOL; // expected: opened
+echo $ticket->getState() . PHP_EOL; // expected: opened
 
 $result = $openedState === $ticket->getState();
 if ($result) {
-    print('true').PHP_EOL; 
+    echo 'true' . PHP_EOL;
 } else {
-    print('false').PHP_EOL;
+    echo 'false' . PHP_EOL;
 }

@@ -11,16 +11,17 @@ class DisplayClient
 {
     private Iterator $bookIterator;
 
-    public function __construct(BooksAggregate $books) {
+    public function __construct(BooksAggregate $books)
+    {
         $this->bookIterator = $books->iterator();
     }
 
     public function getBooks(): void
     {
-        while($this->bookIterator->hasNext()) {
+        while ($this->bookIterator->hasNext()) {
             $book = $this->bookIterator->next();
 
-            echo sprintf("%s %s %s", $book['books_id'], $book['page_count'], $book['author']);
+            echo sprintf('%s %s %s', $book['books_id'], $book['page_count'], $book['author']);
             echo PHP_EOL;
         }
     }

@@ -1,24 +1,27 @@
 <?php
+
 declare(strict_types=1);
 
 abstract class Display
 {
     abstract public function getColumns();
+
     abstract public function getRows();
+
     abstract public function getRowText(int $row);
+
     final public function show()
     {
-        for($i=0; $i<$this->getRows(); $i++) {
-            print($this->getRowText($i)).PHP_EOL;
+        for ($i = 0; $i < $this->getRows(); $i++) {
+            echo $this->getRowText($i) . PHP_EOL;
         }
     }
 }
 
-
 class StringDisplay extends Display
 {
     private string $string;
-    
+
     public function __construct(string $string)
     {
         $this->string = $string;
@@ -36,7 +39,10 @@ class StringDisplay extends Display
 
     public function getRowText(int $row)
     {
-        if ($row === 0) return $this->string;
+        if ($row === 0) {
+            return $this->string;
+        }
+
         return null;
     }
 }
@@ -97,23 +103,24 @@ class FullBorder extends Border
     public function getRowText(int $row)
     {
         if ($row === 0) {
-            return "+" . $this->makeLine('-', $this->display->getColumns()) . "+";
+            return '+' . $this->makeLine('-', $this->display->getColumns()) . '+';
         } elseif ($row === $this->display->getRows() + 1) {
-            return "+" . $this->makeLine('-', $this->display->getColumns()) . "+";
-        } 
-        return "|" . $this->display->getRowText($row - 1) . "|";
+            return '+' . $this->makeLine('-', $this->display->getColumns()) . '+';
+        }
+
+        return '|' . $this->display->getRowText($row - 1) . '|';
     }
 
     private function makeLine(string $ch, int $count)
     {
         $str = '';
-        for ($i=0; $i<$count; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $str .= $ch;
         }
+
         return $str;
     }
 }
-
 
 $b1 = new StringDisplay('Hello, world!');
 $b2 = new SideBorder($b1, '@');

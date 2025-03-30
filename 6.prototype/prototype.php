@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 // =================================================
 
@@ -25,15 +25,11 @@ declare(strict_types=1);
 // }
 
 // $original = new HelloClone(0);
-// $original->doWork();    
-
+// $original->doWork();
 
 // $cloneIt = clone $original; // cloneした場合はコンストラクタが実行されない
 // $cloneIt->doWork();
 // $cloneIt->doWork();
-
-
-
 
 // =================================================
 
@@ -133,35 +129,36 @@ declare(strict_types=1);
 
 // $worker = new Client();
 
-
 // ===============================================
-
-
 
 /**
  * Prototype パターン
  * setterがあるあまり良い例ではない
  * つまりあまりよいパターンではないのかも
- * 
+ *
  * やっていることは
  * 部門ごとに所属する人を表示している
- * 
+ *
  * ただし、それぞれの部門クラスの生成は1度だけで
  * cloneでインスタンスを使い回している
- * 
+ *
  * singletonとはちがうのかな？
- * 
+ *
  * 出典: https://learning.oreilly.com/library/view/learning-php-design/9781449344900/ch06.html
  */
 abstract class IAcmePRototype
 {
     protected $name;
+
     protected $id;
+
     protected $employeePic;
+
     protected $dept;
 
-    abstract function setDept($orgCode);
-    abstract function getDept();
+    abstract public function setDept($orgCode);
+
+    abstract public function getDept();
 
     public function setName($emName)
     {
@@ -193,20 +190,22 @@ abstract class IAcmePRototype
         return $this->employeePic;
     }
 
-    abstract function __clone();
+    abstract public function __clone();
 }
 
 class Marketing extends IAcmePRototype
 {
-    const UNIT = "Marketing";
-    private $sales = "sales";
-    private $promotion = "promotion";
-    private $strategic = "strategic planning";
+    public const UNIT = 'Marketing';
+
+    private $sales = 'sales';
+
+    private $promotion = 'promotion';
+
+    private $strategic = 'strategic planning';
 
     public function setDept($orgCode)
     {
-        switch($orgCode)
-        {
+        switch ($orgCode) {
             case 101:
                 $this->dept = $this->sales;
                 break;
@@ -217,7 +216,7 @@ class Marketing extends IAcmePRototype
                 $this->dept = $this->strategic;
                 break;
             default:
-                $this->dept = "Unrecognized Marketing";
+                $this->dept = 'Unrecognized Marketing';
         }
     }
 
@@ -226,21 +225,24 @@ class Marketing extends IAcmePRototype
         return $this->dept;
     }
 
-    function __clone() {}
+    public function __clone()
+    {
+    }
 }
-
 
 class Management extends IAcmePRototype
 {
-    const UNIT = "Management";
-    private $research = "research";
-    private $plan = "planning";
-    private $operations = "operations";
+    public const UNIT = 'Management';
+
+    private $research = 'research';
+
+    private $plan = 'planning';
+
+    private $operations = 'operations';
 
     public function setDept($orgCode)
     {
-        switch($orgCode)
-        {
+        switch ($orgCode) {
             case 201:
                 $this->dept = $this->research;
                 break;
@@ -250,8 +252,8 @@ class Management extends IAcmePRototype
             case 203:
                 $this->dept = $this->operations;
                 break;
-            default: 
-                $this->dept = "Unrecognized Management";
+            default:
+                $this->dept = 'Unrecognized Management';
         }
     }
 
@@ -260,20 +262,24 @@ class Management extends IAcmePRototype
         return $this->dept;
     }
 
-    function __clone() {}
+    public function __clone()
+    {
+    }
 }
 
 class Engineering extends IAcmePRototype
 {
-    const UNIT = "Engineering";
-    private $development = "programming";
-    private $design = "digital artwork";
-    private $sysAd = "system administration";
+    public const UNIT = 'Engineering';
+
+    private $development = 'programming';
+
+    private $design = 'digital artwork';
+
+    private $sysAd = 'system administration';
 
     public function setDept($orgCode)
     {
-        switch($orgCode)
-        {
+        switch ($orgCode) {
             case 301:
                 $this->dept = $this->development;
                 break;
@@ -283,8 +289,8 @@ class Engineering extends IAcmePRototype
             case 303:
                 $this->dept = $this->sysAd;
                 break;
-            default: 
-                $this->dept = "Unrecognized Engineering";
+            default:
+                $this->dept = 'Unrecognized Engineering';
         }
     }
 
@@ -293,15 +299,17 @@ class Engineering extends IAcmePRototype
         return $this->dept;
     }
 
-    function __clone() {}
+    public function __clone()
+    {
+    }
 }
 
-
-
-class Client 
+class Client
 {
     private $market;
+
     private $manage;
+
     private $engineer;
 
     public function __construct()
@@ -309,23 +317,23 @@ class Client
         $this->makeConProto();
 
         $Tess = clone $this->market;
-        $this->setEmployee($Tess, "Tess Smith", 101, "ts101-1234", "tes.png");
+        $this->setEmployee($Tess, 'Tess Smith', 101, 'ts101-1234', 'tes.png');
         $this->showEmployee($Tess);
 
         $Jacob = clone $this->market;
-        $this->setEmployee($Jacob, "Jacob Jones", 102, "jj102-1234", "jacob.png");
+        $this->setEmployee($Jacob, 'Jacob Jones', 102, 'jj102-1234', 'jacob.png');
         $this->showEmployee($Jacob);
 
         $Ricky = clone $this->manage;
-        $this->setEmployee($Ricky, "Ricky Jones", 203, "jj102-1234", "ricky.png");
+        $this->setEmployee($Ricky, 'Ricky Jones', 203, 'jj102-1234', 'ricky.png');
         $this->showEmployee($Ricky);
 
         $Olivia = clone $this->engineer;
-        $this->setEmployee($Olivia, "Olivia Perez", 302, "jj102-1234", "olivia.png");
+        $this->setEmployee($Olivia, 'Olivia Perez', 302, 'jj102-1234', 'olivia.png');
         $this->showEmployee($Olivia);
 
         $John = clone $this->engineer;
-        $this->setEmployee($John, "John Jackson", 301, "jj102-1234", "john.png");
+        $this->setEmployee($John, 'John Jackson', 301, 'jj102-1234', 'john.png');
         $this->showEmployee($John);
     }
 
@@ -339,10 +347,10 @@ class Client
     private function showEmployee(IAcmePRototype $employeeNow)
     {
         $px = $employeeNow->getPic();
-        echo "px  : " . $px.PHP_EOL;
-        echo "name: " . $employeeNow->getName().PHP_EOL;
-        echo "Dept: " . $employeeNow->getDept().PHP_EOL;
-        echo "ID  : " . $employeeNow->getID().PHP_EOL;
+        echo 'px  : ' . $px . PHP_EOL;
+        echo 'name: ' . $employeeNow->getName() . PHP_EOL;
+        echo 'Dept: ' . $employeeNow->getDept() . PHP_EOL;
+        echo 'ID  : ' . $employeeNow->getID() . PHP_EOL;
     }
 
     private function setEmployee(
@@ -351,8 +359,7 @@ class Client
         int $id,
         string $dp,
         string $px
-    )
-    {
+    ) {
         $employeeNow->setName($nm);
         $employeeNow->setDept($dp);
         $employeeNow->setID($id);
