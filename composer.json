@@ -1,7 +1,8 @@
 {
     "autoload":{
         "psr-4": {
-            "Iterator\\" : "1.iterator/src/"
+            "Iterator\\" : "1.iterator/src/",
+            "Adapter\\" : "2.adapter/src/"
         }
     },
     "require-dev": {
