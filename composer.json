@@ -1,9 +1,10 @@
 {
     "autoload":{
         "psr-4": {
-            "Iterator\\" : "1.iterator/src/",
-            "Adapter\\" : "2.adapter/src/",
-            "TemplateMethod\\" : "3.templateMethod/src/"
+            "Iterator\\": "1.iterator/src/",
+            "Adapter\\": "2.adapter/src/",
+            "TemplateMethod\\": "3.templateMethod/src/",
+            "FactoryMethod\\": "4.factoryMethod/src/"
         }
     },
     "require-dev": {
