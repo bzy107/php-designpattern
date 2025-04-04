@@ -1,7 +1,7 @@
 <?php
 
-use TemplateMethod\TemplateMethod\Display\ChapterDisplay;
-use TemplateMethod\TemplateMethod\Display\StringDisplay;
+use TemplateMethod\Display\ChapterDisplay;
+use TemplateMethod\Display\StringDisplay;
 
 it('can be templateMethod', function () {
     $char = new ChapterDisplay('abc');

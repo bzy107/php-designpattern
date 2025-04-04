@@ -1,6 +1,6 @@
 <?php
 
-use FactoryMethod\FactoryMethod\Factory\IDCardFactory;
+use FactoryMethod\Factory\IDCardFactory;
 
 it('can use the factory method', function() {
     $factory = new IDCardFactory();

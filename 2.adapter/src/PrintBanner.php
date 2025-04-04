@@ -1,8 +1,8 @@
 <?php
 
-namespace Adapter\Adapter;
+namespace Adapter;
 
-use Adapter\Adapter\Legacy\Banner;
+use Adapter\Legacy\Banner;
 
 class PrintBanner extends Banner implements Printable
 {

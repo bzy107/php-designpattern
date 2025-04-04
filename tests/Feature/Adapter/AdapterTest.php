@@ -1,6 +1,6 @@
 <?php
 
-use Adapter\Adapter\PrintBanner;
+use Adapter\PrintBanner;
 
 it('can be adapted', function () {
     $print = new PrintBanner('PrintBanner');

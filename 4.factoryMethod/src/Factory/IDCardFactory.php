@@ -1,6 +1,6 @@
 <?php
 
-namespace FactoryMethod\FactoryMethod\Factory;
+namespace FactoryMethod\Factory;
 
 class IDCardFactory extends Factory
 {

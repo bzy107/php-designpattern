@@ -1,8 +1,8 @@
 <?php
 
-namespace TemplateMethod\TemplateMethod\Display;
+namespace TemplateMethod\Display;
 
-class ChapterDisplay extends AbstractDisplay
+class StringDisplay extends AbstractDisplay
 {
     public function __construct(private string $string)
     {
@@ -10,7 +10,7 @@ class ChapterDisplay extends AbstractDisplay
 
     public function opens(): string
     {
-        return '++++++';
+        return '<<<<';
     }
 
     public function prints(): string
@@ -20,6 +20,6 @@ class ChapterDisplay extends AbstractDisplay
 
     public function closes(): string
     {
-        return '------';
+        return '>>>>';
     }
 }

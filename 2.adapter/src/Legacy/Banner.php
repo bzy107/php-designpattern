@@ -1,6 +1,6 @@
 <?php
 
-namespace Adapter\Adapter\Legacy;
+namespace Adapter\Legacy;
 
 class Banner
 {
