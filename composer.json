@@ -4,7 +4,8 @@
             "Iterator\\": "1.iterator/src/",
             "Adapter\\": "2.adapter/src/",
             "TemplateMethod\\": "3.templateMethod/src/",
-            "FactoryMethod\\": "4.factoryMethod/src/"
+            "FactoryMethod\\": "4.factoryMethod/src/",
+            "Singleton\\": "5.singleton/src/"
         }
     },
     "require-dev": {
